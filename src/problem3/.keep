@@ -1,0 +1,19 @@
+1. Unnecessary useMemo Dependency (prices)
+Issue: The useMemo dependency array includes prices, but prices is not actually used within the memoized callback. This creates unnecessary recomputations of sortedBalances whenever prices change.
+Improvement: Remove prices from the dependency array of useMemo.
+
+2. Incorrect Filtering Logic
+Issue: The filtering logic in balances.filter() is flawed. lhsPriority is undefined in the code, leading to a runtime error. Additionally, the condition balance.amount <= 0 returning true seems counterintuitive since it retains balances with zero or negative amounts.
+Improvement: Use the correct variable (balancePriority), and clarify whether the intention is to exclude balances with non-positive amounts.
+
+3. Redundant Computation of getPriority
+Issue: getPriority is called multiple times in the sorting logic, which is computationally expensive since it involves multiple switch statement evaluations.
+Improvement: Precompute priorities once and reuse them during filtering and sorting.
+
+4. Inefficient Mapping of formattedBalances
+Issue: The code first generates sortedBalances and then iterates over it to produce formattedBalances. This introduces an unnecessary intermediate step.
+Improvement: Combine formattedBalances logic into the mapping process of rows to avoid the extra iteration.
+
+5. Non-descriptive Props Interface
+Issue: The Props interface extends BoxProps without specifying the purpose of WalletPage. This makes it harder to understand what props are expected.
+Improvement: Clearly define the expected props in the Props interface.
